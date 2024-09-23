@@ -18,17 +18,17 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-white dark:bg-gray-800 text-black dark:text-white">
       <Image
         className="dark:invert mb-8"
-        src={logo}
-        alt="Obitify logo"
-        width={200}
-        height={42}
+        src="/assets/logo.png"  // Asumiendo que el logo está en public/assets/logo.png
+        alt="Viaximo logo"
+        width={400}  // Aumentado de 300 a 400
+        height={181}  // Aumentado proporcionalmente de 136 a 181
       />
-      <form onSubmit={handleSubmit} className="w-full max-w-md">
-        <div className="mb-4">
-          <label htmlFor="username" className="block mb-2">
+      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
+        <div>
+          <label htmlFor="username" className="block mb-2 text-sm font-medium">
             Nombre de usuario
           </label>
           <input
@@ -36,7 +36,7 @@ export default function SignIn() {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>

@@ -4,10 +4,14 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import logo from "/src/app/assets/logo.png";
+import Link from "next/link";
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [activeTab, setActiveTab] = useState('local');
+  const [activeMenu, setActiveMenu] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,70 +26,194 @@ export default function Home() {
     router.push("/auth");
   };
 
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const toggleMenu = (menu) => {
+    setActiveMenu(activeMenu === menu ? null : menu);
+  };
+
+  const renderMenu = (menu) => {
+    switch(menu) {
+      case 'tienda':
+        return (
+          <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">eSIMs</Link>
+              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Tarjetas SIM físicas</Link>
+              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Ofertas especiales</Link>
+            </div>
+          </div>
+        );
+      case 'colabora':
+        return (
+          <div className={`absolute top-full left-0 mt-2 w-56 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Programa de afiliados</Link>
+              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Colaboraciones empresariales</Link>
+              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Oportunidades de trabajo</Link>
+            </div>
+          </div>
+        );
+      case 'acerca':
+        return (
+          <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Nuestra historia</Link>
+              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Equipo</Link>
+              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Contacto</Link>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderTabContent = () => {
+    switch(activeTab) {
+      case 'local':
+        return (
+          <div className="mt-4">
+            <h3 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>eSIM locales</h3>
+            <p className={`mt-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Conectividad perfecta para tu destino específico. Ideal para viajes a un solo país.
+            </p>
+          </div>
+        );
+      case 'regional':
+        return (
+          <div className="mt-4">
+            <h3 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>eSIM regionales</h3>
+            <p className={`mt-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Cobertura en múltiples países de una región. Perfecto para viajes por Europa, Asia, o América.
+            </p>
+            <ul className={`list-disc list-inside mt-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <li>Europa (30+ países)</li>
+              <li>Asia-Pacífico (15+ países)</li>
+              <li>América (10+ países)</li>
+            </ul>
+          </div>
+        );
+      case 'global':
+        return (
+          <div className="mt-4">
+            <h3 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>eSIM globales</h3>
+            <p className={`mt-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Conectividad mundial en más de 100 países. La mejor opción para viajeros frecuentes o vuelta al mundo.
+            </p>
+            <ul className={`list-disc list-inside mt-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <li>Cobertura en más de 100 países</li>
+              <li>Planes flexibles desde 7 hasta 30 días</li>
+              <li>Datos de alta velocidad en todas las regiones</li>
+            </ul>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
-      <header className="bg-black border-b border-gray-800">
+    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <header className={`${isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-200'} border-b`}>
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center">
             <Image 
               src={logo} 
-              alt="Orbitify logo" 
-              width={220} 
-              height={100} 
-              className="mr-4 invert" // Invertimos los colores del logo
+              alt="VIAXIMO logo" 
+              width={300} 
+              height={150} 
+              className={`mr-4 ${isDarkMode ? 'invert' : ''}`}
             />
           </div>
           <nav className="flex items-center space-x-6">
-            <a href="#" className="text-gray-300 hover:text-white">Tienda</a>
-            <div className="relative group">
-              <button className="text-gray-300 hover:text-white">Colabora con nosotros</button>
+            <div className="relative">
+              <button 
+                onClick={() => toggleMenu('tienda')} 
+                className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}
+              >
+                Tienda
+              </button>
+              {activeMenu === 'tienda' && renderMenu('tienda')}
             </div>
-            <div className="relative group">
-              <button className="text-gray-300 hover:text-white">Acerca de nosotros</button>
+            <div className="relative">
+              <button 
+                onClick={() => toggleMenu('colabora')} 
+                className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}
+              >
+                Colabora con nosotros
+              </button>
+              {activeMenu === 'colabora' && renderMenu('colabora')}
+            </div>
+            <div className="relative">
+              <button 
+                onClick={() => toggleMenu('acerca')} 
+                className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}
+              >
+                Acerca de nosotros
+              </button>
+              {activeMenu === 'acerca' && renderMenu('acerca')}
             </div>
             {isAuthenticated ? (
-              <p className="text-gray-300">Hola, {username}</p>
+              <p className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Hola, {username}</p>
             ) : (
-              <button onClick={handleSignIn} className="text-gray-300 hover:text-white">
+              <button onClick={handleSignIn} className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}>
                 Iniciar sesión / Registrarse
               </button>
             )}
-            <select className="text-gray-300 bg-transparent border-none">
+            <select className={isDarkMode ? "text-gray-300 bg-transparent border-none" : "text-gray-700 bg-transparent border-none"}>
               <option value="USD">$ USD</option>
             </select>
-            <select className="text-gray-300 bg-transparent border-none">
+            <select className={isDarkMode ? "text-gray-300 bg-transparent border-none" : "text-gray-700 bg-transparent border-none"}>
               <option value="es">🇪🇸 Español (Latinoamérica)</option>
             </select>
+            <button onClick={toggleDarkMode} className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
           </nav>
         </div>
       </header>
 
       <main className="flex-grow container mx-auto px-4 py-12">
         <h1 className="text-5xl font-bold text-center mb-4">
-          Mantente conectado en donde sea que viajes con tarifas accesibles
+        Mantente conectado en donde sea que viajes con tarifas accesibles
         </h1>
-        <p className="text-center text-gray-400 mb-8">
-          Más de 10,000,000 personas en el mundo confían en nuestras eSIM
-        </p>
-        <div className="max-w-3xl mx-auto mb-8">
+   
+        <div className={`max-w-3xl mx-auto mb-8`}>
           <input
             type="text"
             placeholder="Busca paquetes de datos en más de 200 países y regiones"
-            className="w-full p-4 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-400"
+            className={`w-full p-4 ${isDarkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-gray-100 border-gray-300 text-black placeholder-gray-600'} border rounded-full`}
           />
         </div>
         <div className="flex justify-center space-x-8 mt-8">
-          <button className="text-gray-400 hover:text-white">eSIM locales</button>
-          <button className="text-gray-400 hover:text-white">eSIM regionales</button>
-          <button className="text-gray-400 hover:text-white">eSIM globales</button>
+          <button 
+            onClick={() => setActiveTab('local')} 
+            className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'} ${activeTab === 'local' ? 'font-bold' : ''}`}
+          >
+            eSIM locales
+          </button>
+          <button 
+            onClick={() => setActiveTab('regional')} 
+            className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'} ${activeTab === 'regional' ? 'font-bold' : ''}`}
+          >
+            eSIM regionales
+          </button>
+          <button 
+            onClick={() => setActiveTab('global')} 
+            className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'} ${activeTab === 'global' ? 'font-bold' : ''}`}
+          >
+            eSIM globales
+          </button>
         </div>
-        <div className="bg-yellow-900 bg-opacity-20 rounded-lg p-4 mt-8 flex items-center justify-between">
-          <span className="text-yellow-400">Cómo conseguir tu primera eSIM</span>
-          <button className="text-yellow-400">→</button>
-        </div>
+
+        {renderTabContent()}
+
         <h2 className="text-2xl font-bold mt-12 mb-6">Países populares</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <button className="p-4 bg-gray-800 rounded-lg flex items-center space-x-2 hover:bg-gray-700">
+          <button className={`p-4 ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-200 hover:bg-gray-300'} rounded-lg flex items-center space-x-2`}>
             <span className="text-2xl">🇨🇴</span>
             <span>Colombia</span>
           </button>
@@ -96,9 +224,11 @@ export default function Home() {
         </button>
       </main>
 
-      <footer className="bg-gray-900 py-8">
+      <footer className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} py-8`}>
         <div className="container mx-auto px-4">
-          {/* Añade el contenido del footer aquí */}
+          <p className={`text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            © 2023 VIAXIMO. Todos los derechos reservados.
+          </p>
         </div>
       </footer>
     </div>

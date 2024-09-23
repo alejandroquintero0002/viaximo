@@ -36,8 +36,8 @@ export default function AuthPage() {
           className="mb-8 mx-auto"
           src={logo}
           alt="Obitify logo"
-          width={120}
-          height={25}
+          width={250}
+          height={90}
         />
         <div className="flex mb-6">
           <button 
