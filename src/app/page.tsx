@@ -123,56 +123,19 @@ export default function Home() {
             <Image 
               src={logo} 
               alt="VIAXIMO logo" 
-              width={300} 
-              height={150} 
+              width={100} 
+              height={50} 
               className={`mr-4 ${isDarkMode ? 'invert' : ''}`}
             />
           </div>
-          <nav className="flex items-center space-x-6">
-            <div className="relative">
-              <button 
-                onClick={() => toggleMenu('tienda')} 
-                className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}
-              >
-                Tienda
-              </button>
-              {activeMenu === 'tienda' && renderMenu('tienda')}
-            </div>
-            <div className="relative">
-              <button 
-                onClick={() => toggleMenu('colabora')} 
-                className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}
-              >
-                Colabora con nosotros
-              </button>
-              {activeMenu === 'colabora' && renderMenu('colabora')}
-            </div>
-            <div className="relative">
-              <button 
-                onClick={() => toggleMenu('acerca')} 
-                className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}
-              >
-                Acerca de nosotros
-              </button>
-              {activeMenu === 'acerca' && renderMenu('acerca')}
-            </div>
-            {isAuthenticated ? (
-              <p className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Hola, {username}</p>
-            ) : (
-              <button onClick={handleSignIn} className={isDarkMode ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-black"}>
-                Iniciar sesión / Registrarse
-              </button>
-            )}
-            <select className={isDarkMode ? "text-gray-300 bg-transparent border-none" : "text-gray-700 bg-transparent border-none"}>
-              <option value="USD">$ USD</option>
-            </select>
-            <select className={isDarkMode ? "text-gray-300 bg-transparent border-none" : "text-gray-700 bg-transparent border-none"}>
-              <option value="es">🇪🇸 Español (Latinoamérica)</option>
-            </select>
+          <div className="flex items-center space-x-4">
+            <button onClick={() => router.back()} className="text-gray-700 hover:text-black">
+              ←
+            </button>
             <button onClick={toggleDarkMode} className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
               {isDarkMode ? '☀️' : '🌙'}
             </button>
-          </nav>
+          </div>
         </div>
       </header>
 
@@ -231,6 +194,38 @@ export default function Home() {
           </p>
         </div>
       </footer>
+
+      {/* Menú de navegación inferior para dispositivos móviles */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden">
+        <div className="flex justify-around py-2">
+          <button onClick={() => setActiveTab('local')} className="flex flex-col items-center text-gray-700">
+            <span>🏬</span>
+            <span>Tienda</span>
+          </button>
+          <Link href="/mis-esim" className="flex flex-col items-center text-gray-700">
+            <span>📶</span>
+            <span>Mis eSIM</span>
+          </Link>
+          {/* Ocultar el enlace "Acerca" en dispositivos móviles */}
+          <Link href="/acerca" className="hidden md:flex flex-col items-center text-gray-700">
+            <span>ℹ️</span>
+            <span>Acerca</span>
+          </Link>
+          {isAuthenticated ? (
+            <p className="flex flex-col items-center text-gray-700">Hola, {username}</p>
+          ) : (
+            <button onClick={handleSignIn} className="flex flex-col items-center text-gray-700">
+              <span>🔑</span>
+              <span>Iniciar sesión</span>
+            </button>
+          )}
+          {/* Ocultar el botón de "Modo Oscuro" en dispositivos móviles */}
+          <button onClick={toggleDarkMode} className="hidden md:flex flex-col items-center text-gray-700">
+            {isDarkMode ? '☀️' : '🌙'}
+            <span>{isDarkMode ? 'Modo Claro' : 'Modo Oscuro'}</span>
+          </button>
+        </div>
+      </nav>
     </div>
   );
 }
