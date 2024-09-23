@@ -25,7 +25,7 @@ export default function AuthPage() {
   };
 
   const toggleDarkMode = () => {
-    // Definir toggleDarkMode
+    setIsDarkMode(prevMode => !prevMode); // Añadir esta línea
   };
 
   const handleSubmit = (e: React.FormEvent) => {
