@@ -11,7 +11,6 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState('local');
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -28,47 +27,6 @@ export default function Home() {
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
-  };
-
-  const toggleMenu = (menu: string) => {
-    setActiveMenu(activeMenu === menu ? null : menu);
-  };
-
-  const renderMenu = (menu: string) => {
-    switch(menu) {
-      case 'tienda':
-        return (
-          <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
-            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">eSIMs</Link>
-              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Tarjetas SIM físicas</Link>
-              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Ofertas especiales</Link>
-            </div>
-          </div>
-        );
-      case 'colabora':
-        return (
-          <div className={`absolute top-full left-0 mt-2 w-56 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
-            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Programa de afiliados</Link>
-              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Colaboraciones empresariales</Link>
-              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Oportunidades de trabajo</Link>
-            </div>
-          </div>
-        );
-      case 'acerca':
-        return (
-          <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
-            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Nuestra historia</Link>
-              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Equipo</Link>
-              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Contacto</Link>
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
   };
 
   const renderTabContent = () => {
