@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "/src/app/assets/logo.png";
-import eSIMImage from "/src/app/assets/eSim.png";
+import eSimImage from '../../assets/eSIm.png';
 
 export default function MisESIM() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -71,7 +71,7 @@ export default function MisESIM() {
         </div>
         <div className="mt-8 text-center">
           <Image 
-             src={eSIMImage} 
+             src={eSimImage} 
             alt="eSIM Image" 
             width={400} 
             height={300} 
