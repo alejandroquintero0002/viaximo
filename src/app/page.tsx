@@ -12,6 +12,7 @@ export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState('local');
   const router = useRouter();
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -29,6 +30,47 @@ export default function Home() {
     setIsDarkMode(!isDarkMode);
   };
 
+  const toggleMenu = (menu: string) => {
+    setActiveMenu(activeMenu === menu ? null : menu);
+  };
+
+  const renderMenu = (menu: string) => {
+    switch(menu) {
+      case 'tienda':
+        return (
+          <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">eSIMs</Link>
+              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Tarjetas SIM físicas</Link>
+              <Link href="/tienda" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Ofertas especiales</Link>
+            </div>
+          </div>
+        );
+      case 'colabora':
+        return (
+          <div className={`absolute top-full left-0 mt-2 w-56 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Programa de afiliados</Link>
+              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Colaboraciones empresariales</Link>
+              <Link href="/colabora" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Oportunidades de trabajo</Link>
+            </div>
+          </div>
+        );
+      case 'acerca':
+        return (
+          <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Nuestra historia</Link>
+              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Equipo</Link>
+              <Link href="/acerca" className={`block px-4 py-2 text-sm ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`} role="menuitem">Contacto</Link>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+  
   const renderTabContent = () => {
     switch(activeTab) {
       case 'local':
@@ -76,20 +118,42 @@ export default function Home() {
   return (
     <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <header className={`${isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-200'} border-b`}>
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center relative">
           <div className="flex items-center">
             <Image 
               src={logo} 
               alt="VIAXIMO logo" 
-              width={100} 
-              height={50} 
+              width={250} 
+              height={120} 
               className={`mr-4 ${isDarkMode ? 'invert' : ''}`}
             />
           </div>
           <div className="flex items-center space-x-4">
-            <button onClick={() => router.back()} className="text-gray-700 hover:text-black">
-              ←
-            </button>
+            <div className="relative">
+              <button onClick={() => toggleMenu('tienda')} className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
+                Tienda
+              </button>
+              {activeMenu === 'tienda' && renderMenu('tienda')}
+            </div>
+            <div className="relative">
+              <button onClick={() => toggleMenu('colabora')} className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
+                Colabora
+              </button>
+              {activeMenu === 'colabora' && renderMenu('colabora')}
+            </div>
+            <div className="relative">
+              <button onClick={() => toggleMenu('acerca')} className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
+                Acerca
+              </button>
+              {activeMenu === 'acerca' && renderMenu('acerca')}
+            </div>
+            {isAuthenticated ? (
+              <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Hola, {username}</p>
+            ) : (
+              <button onClick={handleSignIn} className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
+                Iniciar sesión / Registrarse
+              </button>
+            )}
             <button onClick={toggleDarkMode} className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
               {isDarkMode ? '☀️' : '🌙'}
             </button>
