@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import logo from "/src/app/assets/logo.png";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");

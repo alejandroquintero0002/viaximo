@@ -6,7 +6,7 @@ import Image from "next/image";
 import logo from "/src/app/assets/logo.png";
 
 export default function Tienda() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode] = useState(false);
 
   return (
     <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>

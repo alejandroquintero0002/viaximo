@@ -11,7 +11,7 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState('local');
-  const [activeMenu, setActiveMenu] = useState(null);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,11 +30,11 @@ export default function Home() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const toggleMenu = (menu) => {
+  const toggleMenu = (menu: string) => {
     setActiveMenu(activeMenu === menu ? null : menu);
   };
 
-  const renderMenu = (menu) => {
+  const renderMenu = (menu: string) => {
     switch(menu) {
       case 'tienda':
         return (
